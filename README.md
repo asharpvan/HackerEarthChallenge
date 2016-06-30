@@ -1,7 +1,11 @@
 # HackerEarthChallenge
 
-**This project was done in response to the Hacker Earth's Dark Matter iOS Challenge**
 
+#Update 
+**1. Added Animation to Uitable view scrolling**
+
+
+#This project was done in response to the Hacker Earth's Dark Matter iOS Challenge
 Could be used as a project guidance for 
 
 1. Creating **Custom APIs with CompletionHandlers**.

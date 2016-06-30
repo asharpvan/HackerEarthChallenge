@@ -165,10 +165,10 @@
     static NSString *cellIdentifier = @"HistoryCell";
     // Similar to UITableViewCell, but
     CustomCellTableViewCell *cell = (CustomCellTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-//    if (cell == nil) {
+    if (cell == nil) {
         cell = [[CustomCellTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-//    }
+    }
     iSecureProductDataModel *nowShowing;
     if (tableView == self.searchDisplayController.searchResultsTableView)
         nowShowing = [searchData objectAtIndex:indexPath.row];
@@ -204,9 +204,73 @@
         row = indexPath.row;
     }
     
-    
     DetailsViewController *detailsVC = [[DetailsViewController alloc]initWithArray:arrayOfiSecureProducts andCurrentPage:row];
     [self.navigationController pushViewController:detailsVC animated:TRUE];
+}
+
+-(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+//    //*******************************************************************************//
+//    //Think  And Build Animation
+//    //*******************************************************************************//
+    //1. Setup the CATransform3D structure
+    CATransform3D rotation;
+    rotation = CATransform3DMakeRotation( (90*M_PI)/180, 0.0, 0.7, 0.4);
+    rotation.m34 = 1.0/ -600;
+    //2. Define the initial state (Before the animation)
+    cell.layer.shadowColor = [[UIColor blackColor]CGColor];
+    cell.layer.shadowOffset = CGSizeMake(10, 10);
+    cell.alpha = 0;
+    cell.layer.transform = rotation;
+    cell.layer.anchorPoint = CGPointMake(0, 0.5);
+    //3. Define the final state (After the animation) and commit the animation
+    [UIView beginAnimations:@"rotation" context:NULL];
+    [UIView setAnimationDuration:0.8];
+    cell.layer.transform = CATransform3DIdentity;
+    cell.alpha = 1;
+    cell.layer.shadowOffset = CGSizeMake(0, 0);
+    [UIView commitAnimations];
+//    //*******************************************************************************//
+    
+//    //*******************************************************************************//
+//    //Jaded Mind
+//    //*******************************************************************************//
+//    //Create an animation with pulsating effect
+//    CABasicAnimation *theAnimation;
+//    //within the animation we will adjust the "opacity"
+//    //value of the layer
+//    theAnimation=[CABasicAnimation animationWithKeyPath:@"opacity"];
+//    //animation lasts 0.4 seconds
+//    theAnimation.duration=0.4;
+//    //and it repeats forever
+//    theAnimation.repeatCount= 1;
+//    //we want a reverse animation
+//    theAnimation.autoreverses=YES;
+//    //justify the opacity as you like (1=fully visible, 0=unvisible)
+//    theAnimation.fromValue=[NSNumber numberWithFloat:1.0];
+//    theAnimation.toValue=[NSNumber numberWithFloat:0.1];
+//    //Assign the animation to your UIImage layer and the
+//    //animation will start immediately
+//    [cell.layer addAnimation:theAnimation forKey:@"animateOpacity"];
+//    //*******************************************************************************//
+    
+    
+    //*******************************************************************************//
+    //Table View Tutorial
+    //*******************************************************************************//
+//    if (tableView.isDragging) {
+//        UIView *myView = cell.contentView;
+//        CALayer *layer = myView.layer;
+//        CATransform3D rotationAndPerspectiveTransform = CATransform3DIdentity;
+//        rotationAndPerspectiveTransform.m34 = 1.0 / -1000;
+////        rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, M_PI*0.5, 1.0f, 0.0f, 0.0f);
+//        rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, -M_PI*0.5, 1.0f, 0.0f, 0.0f);
+//      layer.transform = rotationAndPerspectiveTransform;
+//        [UIView animateWithDuration:.5 animations:^{
+//            layer.transform = CATransform3DIdentity;
+//        }];
+//    }
+    //*******************************************************************************//
 }
 
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
