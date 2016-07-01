@@ -14,6 +14,7 @@
 #import "CustomCellTableViewCell.h"
 #import "UIImageView+WebCache.h"
 #import "TWMessageBarManager.h"
+#import "POP.h"
 
 @interface ViewController () {
     
@@ -203,74 +204,140 @@
         
         row = indexPath.row;
     }
-    
     DetailsViewController *detailsVC = [[DetailsViewController alloc]initWithArray:arrayOfiSecureProducts andCurrentPage:row];
     [self.navigationController pushViewController:detailsVC animated:TRUE];
 }
 
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    //    //*******************************************************************************//
+    //    //Facebook Pop Animation
+    //    //*******************************************************************************//
     
-//    //*******************************************************************************//
-//    //Think  And Build Animation
-//    //*******************************************************************************//
-    //1. Setup the CATransform3D structure
-    CATransform3D rotation;
-    rotation = CATransform3DMakeRotation( (90*M_PI)/180, 0.0, 0.7, 0.4);
-    rotation.m34 = 1.0/ -600;
-    //2. Define the initial state (Before the animation)
-    cell.layer.shadowColor = [[UIColor blackColor]CGColor];
-    cell.layer.shadowOffset = CGSizeMake(10, 10);
-    cell.alpha = 0;
-    cell.layer.transform = rotation;
-    cell.layer.anchorPoint = CGPointMake(0, 0.5);
-    //3. Define the final state (After the animation) and commit the animation
-    [UIView beginAnimations:@"rotation" context:NULL];
-    [UIView setAnimationDuration:0.8];
-    cell.layer.transform = CATransform3DIdentity;
-    cell.alpha = 1;
-    cell.layer.shadowOffset = CGSizeMake(0, 0);
-    [UIView commitAnimations];
-//    //*******************************************************************************//
+    //Opacity Animation
+//    POPBasicAnimation *opacityAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerOpacity];
+//    opacityAnimation.toValue = @(0.5);
+//    [cell.layer pop_addAnimation:opacityAnimation forKey:@"opacityAnimation"];
     
-//    //*******************************************************************************//
-//    //Jaded Mind
-//    //*******************************************************************************//
-//    //Create an animation with pulsating effect
-//    CABasicAnimation *theAnimation;
-//    //within the animation we will adjust the "opacity"
-//    //value of the layer
-//    theAnimation=[CABasicAnimation animationWithKeyPath:@"opacity"];
-//    //animation lasts 0.4 seconds
-//    theAnimation.duration=0.4;
-//    //and it repeats forever
-//    theAnimation.repeatCount= 1;
-//    //we want a reverse animation
-//    theAnimation.autoreverses=YES;
-//    //justify the opacity as you like (1=fully visible, 0=unvisible)
-//    theAnimation.fromValue=[NSNumber numberWithFloat:1.0];
-//    theAnimation.toValue=[NSNumber numberWithFloat:0.1];
-//    //Assign the animation to your UIImage layer and the
-//    //animation will start immediately
-//    [cell.layer addAnimation:theAnimation forKey:@"animateOpacity"];
-//    //*******************************************************************************//
+    //Wrong Password Animation
+//    POPSpringAnimation *shake = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+//    shake.springBounciness = 20;
+//    shake.velocity = @(3000);
+//    [cell.layer pop_addAnimation:shake forKey:@"shakePassword"];
     
+    //Bounce Animation
+//    POPSpringAnimation *sprintAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+//    sprintAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(8, 8)];
+//    sprintAnimation.springBounciness = 20.f;
+//    [cell pop_addAnimation:sprintAnimation forKey:@"sendAnimation"];
     
-    //*******************************************************************************//
-    //Table View Tutorial
-    //*******************************************************************************//
-//    if (tableView.isDragging) {
-//        UIView *myView = cell.contentView;
-//        CALayer *layer = myView.layer;
-//        CATransform3D rotationAndPerspectiveTransform = CATransform3DIdentity;
-//        rotationAndPerspectiveTransform.m34 = 1.0 / -1000;
-////        rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, M_PI*0.5, 1.0f, 0.0f, 0.0f);
-//        rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, -M_PI*0.5, 1.0f, 0.0f, 0.0f);
-//      layer.transform = rotationAndPerspectiveTransform;
-//        [UIView animateWithDuration:.5 animations:^{
-//            layer.transform = CATransform3DIdentity;
-//        }];
+    //Animation to Rotate
+//    POPSpringAnimation *rotationAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerRotation];
+//    rotationAnimation.beginTime = CACurrentMediaTime() + 0.2;
+//    rotationAnimation.toValue = @(1.2);
+//    rotationAnimation.springBounciness = 10.f;
+//    rotationAnimation.springSpeed = 3;
+//    [cell.layer pop_addAnimation:rotationAnimation forKey:@"rotationAnim"];
+    
+    // Move to a Location with Spring Animation
+//    POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPosition];
+//    anim.toValue = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
+//    anim.springBounciness = 20;
+//    anim.springSpeed = 1;
+//    [cell.layer pop_addAnimation:anim forKey:@"move"];
+
+    //ANimate size with Scale
+//    const CGFloat LargeSize = 256.0f;
+//    const CGFloat SmallSize = 64.0f;
+//    POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
+//    if (cell.frame.size.width >= LargeSize) {
+//        anim.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, SmallSize, SmallSize)];
+//    } else {
+//        anim.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, LargeSize, LargeSize)];
 //    }
-    //*******************************************************************************//
+//    anim.springSpeed = 10;
+//    anim.springBounciness = 10;
+//    [cell.layer pop_addAnimation:anim forKey:@"scale"];
+    
+    //Fade Away Animation
+//    POPBasicAnimation *anim = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+//    anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+//    anim.fromValue = @(1.0);
+//    anim.toValue = @(0.0);
+//    [cell pop_addAnimation:anim forKey:@"fade"];
+    
+    //Aimation to move to a location with spring
+//    POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionY];
+//    anim.fromValue = @(100);
+//    anim.toValue = @(100);
+//    anim.springBounciness = 20;
+//    anim.springSpeed = 5;
+//    anim.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+//        NSLog(@"Animation has completed.");
+//    };
+//    [cell.layer pop_addAnimation:anim forKey:@"move"];
+    
+    //Change size and rotate
+//    POPSpringAnimation  *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerSize];
+//    POPSpringAnimation *rotation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerRotation];
+//    anim.toValue = [NSValue valueWithCGSize:CGSizeMake(44, 44)];
+//    rotation.toValue = @(M_PI_4);
+//    [[cell contentView] setBackgroundColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0]];
+//    anim.springBounciness = 20;
+//    anim.springSpeed = 16;
+//    anim.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+//        NSLog(@"Animation has completed.");
+//    };
+//    [cell.layer pop_addAnimation:anim forKey:@"size"];
+//    [cell.layer pop_addAnimation:rotation forKey:@"rotation"];
+    
+    //Move  along x axis
+//    POPSpringAnimation *move = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+//    move.toValue = @(200);
+//    move.springBounciness = 15;
+//    move.springSpeed = 5.0f;
+//    [cell.layer pop_addAnimation:move forKey:@"position"];
+    
+    //Animation to Change color
+//    POPSpringAnimation *color = [POPSpringAnimation animationWithPropertyNamed:kPOPViewBackgroundColor];
+//    color.toValue = [UIColor greenColor];
+//    color.springBounciness = 15;
+//    color.springSpeed = 5.0f;
+//    [cell pop_addAnimation:color forKey:@"colorChange"];
+    
+    //Size Change with animation
+//    POPSpringAnimation *buttonAnimation = [POPSpringAnimation animation];
+//    buttonAnimation.property = [POPAnimatableProperty propertyWithName:kPOPLayerSize];
+//    buttonAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(cell.frame.size.width*2, cell.frame.size.height*2)];
+//    buttonAnimation.springBounciness = 10.0;
+//    buttonAnimation.springSpeed = 10.0;
+//    buttonAnimation.dynamicsTension = 15.0;
+//    buttonAnimation.dynamicsFriction = 2.0;
+//    buttonAnimation.dynamicsMass = .2;
+//    [cell pop_addAnimation:buttonAnimation forKey:@"pop"];
+
+    //SLIDEOUT ANIMATION
+//    POPSpringAnimation *popOutAnimation = [POPSpringAnimation animation];
+//    popOutAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
+//    popOutAnimation.toValue = [NSValue valueWithCGRect:CGRectMake(245, 70, 0, 10)];
+//    popOutAnimation.velocity = [NSValue valueWithCGRect:CGRectMake(200, 0, 300, -200)];
+//    popOutAnimation.springBounciness = 10.0;
+//    popOutAnimation.springSpeed = 10.0;
+//    [cell pop_addAnimation:popOutAnimation forKey:@"slide"];
+    
+    //Slide with a twist
+//    POPSpringAnimation *popOutAnimation = [POPSpringAnimation animation];
+//    popOutAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
+//    popOutAnimation.toValue = [NSValue valueWithCGRect:CGRectMake(cell.frame.origin.x + 100, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
+//    popOutAnimation.velocity = [NSValue valueWithCGRect:CGRectMake(2000, 0, 3000, 1000)];
+//    popOutAnimation.springBounciness = 10.0;
+//    popOutAnimation.springSpeed = 10.0;
+//    [cell pop_addAnimation:popOutAnimation forKey:@"slide"];
+    
+    
+
+
+    
 }
 
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
